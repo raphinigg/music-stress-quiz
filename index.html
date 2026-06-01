@@ -54,6 +54,12 @@ line-height:1.6;
 max-width:420px;
 margin:0 auto;
 }
+.header .hint{
+font-size:13px;
+color:var(--accent);
+font-weight:500;
+margin-top:12px;
+}
 .step{
 display:none;
 animation:fadeIn 0.4s ease;
@@ -230,9 +236,20 @@ border-radius:4px;
 .dot.done{background:var(--accent)}
 .fhgr-footer{
 text-align:center;
-padding:32px 0 16px;
+padding:32px 0 8px;
 font-size:12px;
 color:var(--muted);
+}
+.sources{
+text-align:center;
+padding:8px 0 16px;
+font-size:11px;
+color:var(--muted);
+line-height:1.8;
+}
+.sources a{
+color:var(--muted);
+text-decoration:underline;
 }
 </style>
 </head>
@@ -244,6 +261,7 @@ color:var(--muted);
 <div class="header-label">Interactive experiment</div>
 <h1>Can music reduce your stress?</h1>
 <p>Listen to three different sound types and rate how relaxing each one feels. Then compare your perception with our scientific findings.</p>
+<p class="hint">Please take at least 30 seconds per sound before rating.</p>
 </div>
 
 <div class="progress-dots">
@@ -276,11 +294,11 @@ Your browser does not support audio.
 <div class="step" id="step2">
 <div class="sound-card">
 <div class="sound-number">Sound 2 of 3</div>
-<div class="sound-title">Binaural beats</div>
+<div class="sound-title">Binaural beats (Theta, 6 Hz)</div>
 <div class="sound-desc">Use headphones for the full effect. Listen for at least 30 seconds before rating.</div>
 
 <audio controls preload="metadata">
-<source src="music/stress2.mp3" type="audio/mpeg">
+<source src="music/theta.wav" type="audio/wav">
 Your browser does not support audio.
 </audio>
 
@@ -291,15 +309,15 @@ Your browser does not support audio.
 <button class="btn btn-primary" id="next2" disabled onclick="goTo(3)">Continue</button>
 </div>
 
-<!-- STEP 3: White Noise / Nature -->
+<!-- STEP 3: White Noise -->
 <div class="step" id="step3">
 <div class="sound-card">
 <div class="sound-number">Sound 3 of 3</div>
-<div class="sound-title">White noise / nature sounds</div>
+<div class="sound-title">White noise</div>
 <div class="sound-desc">Listen for at least 30 seconds, then rate how it made you feel.</div>
 
 <audio controls preload="metadata">
-<source src="music/stress3.mp3" type="audio/mpeg">
+<source src="music/white.mp3" type="audio/mpeg">
 Your browser does not support audio.
 </audio>
 
@@ -329,7 +347,14 @@ Your browser does not support audio.
 </div>
 
 <div class="fhgr-footer">
-FHGR · Digital Business Management · Thoma, Hofmann, Tomaselli, Nigg · 2026
+FHGR · Digital Business Management · Hofmann, Nigg, Thoma, Tomaselli · 2026
+</div>
+
+<div class="sources">
+<strong>Audio sources:</strong><br>
+Classical: Allegri — Miserere, Trinity College Choir. <a href="https://archive.org/details/MiserereGregorioAllegri" target="_blank">Internet Archive</a><br>
+Binaural beats: 6 Hz Theta, generated using <a href="https://zenmix.io/binaural-beat-generator" target="_blank">ZENmix</a><br>
+White noise: fe_da_silva. <a href="https://pixabay.com/sound-effects/film-special-effects-white-noise-179828/" target="_blank">Pixabay</a>
 </div>
 
 </div>
@@ -401,7 +426,7 @@ function renderBars(containerId, classical, binaural, whitenoise, max) {
   const items = [
     {label: 'Classical music', value: classical, cls: 'classical'},
     {label: 'Binaural beats', value: binaural, cls: 'binaural'},
-    {label: 'White noise / nature', value: whitenoise, cls: 'whitenoise'}
+    {label: 'White noise', value: whitenoise, cls: 'whitenoise'}
   ];
   container.innerHTML = items.map(item => `
     <div class="bar-container">
