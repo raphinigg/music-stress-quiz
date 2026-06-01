@@ -382,6 +382,7 @@ function initRatingButtons() {
 }
 
 function goTo(step) {
+  document.querySelectorAll('audio').forEach(a => { a.pause(); a.currentTime = 0; });
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   document.getElementById('step' + step).classList.add('active');
   updateDots(step);
