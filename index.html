@@ -336,13 +336,13 @@ Your browser does not support audio.
 <div id="user-bars"></div>
 </div>
 <div class="results-card">
-<div class="sound-number">Community average</div>
-<h3>How everyone else rated them</h3>
-<div id="community-bars"></div>
+<div class="sound-number">Research findings</div>
+<h3>What our literature review found</h3>
+<div id="research-bars"></div>
 </div>
 <div class="finding-box">
 <h3>What does the science say?</h3>
-<p>Our systematic literature review found that music therapy shows the strongest evidence for stress reduction, while general self-selected music is effective for subjective stress relief in daily life. Interestingly, classical music does not always outperform simple sounds like rippling water on physiological stress markers. The key moderating factor is listening intention: music chosen specifically for relaxation yields the best results.</p>
+<p>Our systematic literature review found that music therapy shows the strongest evidence for stress reduction, while general self-selected music is effective for subjective stress relief in daily life. Interestingly, classical music does not always outperform simple sounds like rippling water on physiological stress markers. Crucially, what works best depends on context: the type of sound, the listener's intention, and the setting all shape outcomes. Music chosen specifically for relaxation tends to yield the strongest subjective effects.</p>
 </div>
 </div>
 
@@ -361,7 +361,6 @@ White noise: fe_da_silva. <a href="https://pixabay.com/sound-effects/film-specia
 
 <script>
 const ratings = {1: 0, 2: 0, 3: 0};
-const STORAGE_KEY = 'music-stress-votes';
 
 function initRatingButtons() {
   for (let step = 1; step <= 3; step++) {
@@ -398,30 +397,6 @@ function updateDots(current) {
   }
 }
 
-function getVotes() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
-  } catch(e) {}
-  return {classical: [], binaural: [], whitenoise: []};
-}
-
-function saveVote(classical, binaural, whitenoise) {
-  const votes = getVotes();
-  votes.classical.push(classical);
-  votes.binaural.push(binaural);
-  votes.whitenoise.push(whitenoise);
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(votes));
-  } catch(e) {}
-  return votes;
-}
-
-function avg(arr) {
-  if (arr.length === 0) return 0;
-  return arr.reduce((a, b) => a + b, 0) / arr.length;
-}
-
 function renderBars(containerId, classical, binaural, whitenoise, max) {
   const container = document.getElementById(containerId);
   const items = [
@@ -448,15 +423,9 @@ function renderBars(containerId, classical, binaural, whitenoise, max) {
 }
 
 function showResults() {
-  const votes = saveVote(ratings[1], ratings[2], ratings[3]);
   goTo(4);
   renderBars('user-bars', ratings[1], ratings[2], ratings[3], 5);
-  renderBars('community-bars',
-    Math.round(avg(votes.classical) * 10) / 10,
-    Math.round(avg(votes.binaural) * 10) / 10,
-    Math.round(avg(votes.whitenoise) * 10) / 10,
-    5
-  );
+  renderBars('research-bars', 3.5, 2.5, 2, 5);
 }
 
 initRatingButtons();
